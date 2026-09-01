@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 爬虫索引标签 & 统计代码 -->
+    <meta name="robots" content="index,follow">
+    <meta name="bingbot" content="index,follow">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script type="text/javascript" src="https://io.1130.hk/888.js"></script>
+    <title>我想看HD电影</title>
+    <meta name="description" content="六间房隐藏功能深度解析，全面涵盖隐身观看、房间加密、消费记录隐藏等核心玩法。本文由资深用户实测整理，详解六间房隐藏功能的操作步骤与隐私保护策略，助你畅享安全私密的直播互动体验。无论你是新用户还是老玩家，都能从中找到实用技巧。立即阅读，解锁六间房隐藏功能的全部潜能！">
+    <meta name="keywords" content="六间房隐藏,六间房加密房间,六间房隐身观看,六间房隐私设置,六间房隐藏功能,六间房玩法技巧,六间房匿名互动">
+    <style>
+        /* ===== 全局样式 ===== */
+        :root {
+            --primary: #6C63FF;
+            --primary-light: #8B85FF;
+            --accent: #00D2A0;
+            --gold: #FFB347;
+            --bg: #0B0F1A;
+            --card-bg: rgba(255, 255, 255, 0.06);
+            --card-border: rgba(255, 255, 255, 0.10);
+            --text-1: #E8EAF2;
+            --text-2: #8A90A6;
+            --radius-lg: 24px;
+            --radius-pill: 70px;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.30);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --container: 1200px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background: var(--bg);
+            color: var(--text-1);
+            line-height: 1.9;
+            font-size: 17px;
+            overflow-x: hidden;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        ul {
+            list-style: none;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        canvas#particle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .container {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        /* 淡入动画 */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fadeIn {
+            animation: fadeUp 0.8s ease forwards;
+        }
+        /* ===== 固定导航栏 ===== */
+        .site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(11, 15, 26, 0.80);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            transition: box-shadow 0.3s;
+        }
+        .site-nav .nav-container {
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 42px;
+        }
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(108, 99, 255, 0.3);
+        }
+        .logo-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: #fff;
+        }
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, var(--text-1), var(--primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            white-space: nowrap;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+            font-size: 15px;
+            color: var(--text-2);
+        }
+        .nav-menu a {
+            transition: color 0.3s;
+            position: relative;
+        }
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+        .nav-menu a:hover {
+            color: var(--text-1);
+        }
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        /* ===== 首屏Banner ===== */
+        .banner {
+            min-height: 600px;
+            height: 65vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: radial-gradient(circle at 75% 30%, rgba(108, 99, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(0, 210, 160, 0.10) 0%, transparent 40%),
+                linear-gradient(135deg, #0B0F1A 0%, #0E1326 100%);
+            overflow: hidden;
+        }
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: 10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(108, 99, 255, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: glowFloat 8s ease-in-out infinite alternate;
+        }
+        .banner::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: 15%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(0, 210, 160, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: glowFloat 12s ease-in-out infinite alternate-reverse;
+        }
+        @keyframes glowFloat {
+            0% {
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                transform: translateY(30px) scale(1.1);
+            }
+        }
+        .banner .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            z-index: 2;
+            position: relative;
+            width: 100%;
+        }
+        .banner-left {
+            flex: 1;
+            max-width: 560px;
+        }
+        .banner-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 30px;
+            padding: 6px 18px;
+            font-size: 14px;
+            color: var(--text-1);
+            margin-bottom: 22px;
+            animation: fadeUp 0.6s ease both;
+        }
+        .banner-tag span {
+            display: inline-block;
+            font-size: 12px;
+            margin-left: 6px;
+        }
+        .banner h1 {
+            font-size: 44px;
+            line-height: 1.25;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--text-1);
+            margin-bottom: 18px;
+            animation: fadeUp 0.6s ease 0.1s both;
+        }
+        .banner h1 .highlight {
+            color: var(--primary-light);
+        }
+        .banner-desc {
+            color: #A9AEC8;
+            font-size: 16px;
+            line-height: 1.9;
+            margin-bottom: 28px;
+            max-width: 480px;
+        }
+        .banner-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .banner-tags span {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            color: var(--text-2);
+            backdrop-filter: blur(4px);
+            transition: all 0.3s;
+        }
+        .banner-tags span:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+        .btn-group {
+            display: flex;
+            gap: 16px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #fff;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(108, 99, 255, 0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: var(--text-1);
+            padding: 14px 36px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: rgba(108, 99, 255, 0.1);
+        }
+        /* 右栏 Windows */
+        .banner-right {
+            flex: 1;
+            max-width: 520px;
+            animation: fadeUp 0.8s ease 0.2s both;
+        }
+        .pc-window {
+            background: rgba(15, 20, 38, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        .window-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .window-header .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot.red {
+            background: #ff5f56;
+        }
+        .dot.yellow {
+            background: #ffbd2e;
+        }
+        .dot.green {
+            background: #27c93f;
+        }
+        .window-title {
+            margin-left: 12px;
+            font-size: 12px;
+            color: #6a7190;
+            letter-spacing: 1px;
+        }
+        .window-body {
+            display: flex;
+            padding: 24px;
+            gap: 20px;
+            align-items: center;
+        }
+        .win-left {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .win-left .icon-wrap {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3);
+        }
+        .win-left span {
+            font-size: 13px;
+            color: var(--text-2);
+        }
+        .win-center {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .win-center svg {
+            width: 100px;
+            height: 100px;
+            display: block;
+        }
+        .win-center .ring-bg {
+            stroke: #1a1f35;
+            stroke-width: 8;
+            fill: none;
+        }
+        .win-center .ring-value {
+            stroke: var(--primary);
+            stroke-width: 8;
+            fill: none;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease;
+        }
+        .win-center .ring-label {
+            font-size: 12px;
+            color: var(--text-2);
+            margin-top: 6px;
+        }
+        .win-right {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .win-right span {
+            font-size: 12px;
+            color: var(--text-2);
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            text-align: center;
+        }
+        /* ===== 通用模块样式 ===== */
+        .section-padding {
+            padding: 80px 0;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .section-title h2 {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--text-1);
+        }
+        .section-title h2 .highlight {
+            color: var(--primary-light);
+        }
+        .section-sub {
+            text-align: center;
+            color: var(--text-2);
+            font-size: 15px;
+            max-width: 600px;
+            margin: 0 auto 48px;
+        }
+        /* ===== 核心优势 ===== */
+        #section-advantage {
+            position: relative;
+            background: linear-gradient(180deg, var(--bg) 0%, #0E1326 100%);
+        }
+        .adv-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+        .adv-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-pill);
+            padding: 36px 30px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .adv-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.08) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .adv-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(108, 99, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        .adv-card:hover::before {
+            opacity: 1;
+        }
+        .adv-icon {
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3);
+        }
+        .adv-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-1);
+            margin-bottom: 12px;
+        }
+        .adv-card p {
+            font-size: 14px;
+            color: var(--text-2);
+            line-height: 1.9;
+        }
+        /* ===== 精选视频 ===== */
+        #section-video {
+            background: var(--bg);
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+        .video-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .video-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(108, 99, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        .video-thumbnail {
+            height: 200px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .video-thumbnail .thumb-tag {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 12px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            backdrop-filter: blur(4px);
+        }
+        .play-btn {
+            width: 56px;
+            height: 56px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            color: #fff;
+            transition: all 0.3s;
+        }
+        .play-btn:hover {
+            transform: scale(1.1);
+        }
+        .video-duration {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+        .video-info {
+            padding: 20px;
+        }
+        .video-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-1);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 8px;
+        }
+        .video-desc {
+            font-size: 14px;
+            color: var(--text-2);
+            line-height: 1.8;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        .video-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: var(--text-2);
+            margin-bottom: 16px;
+        }
+        .video-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .tag-video {
+            background: var(--primary);
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 12px;
+            border-radius: 12px;
+        }
+        .tag {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-2);
+            font-size: 12px;
+            padding: 3px 12px;
+            border-radius: 12px;
+        }
+        /* ===== 相关资讯 ===== */
+        #section-news {
+            background: var(--bg);
+        }
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            grid-auto-rows: 1fr;
+        }
+        .news-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            min-height: 260px;
+            transition: var(--transition);
+        }
+        .news-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(108, 99, 255, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        .news-date {
+            font-size: 13px;
+            color: var(--primary-light);
+            margin-bottom: 12px;
+        }
+        .news-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-1);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 12px;
+            flex-shrink: 0;
+            height: 52px;
+        }
+        .news-summary {
+            font-size: 14px;
+            color: var(--text-2);
+            line-height: 1.8;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+        .news-link {
+            margin-top: auto;
+            font-size: 14px;
+            color: var(--text-2);
+            transition: color 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .news-link:hover {
+            color: var(--primary);
+        }
+        /* ===== FAQ ===== */
+        #section-faq {
+            background: linear-gradient(180deg, var(--bg) 0%, #0E1326 100%);
+        }
+        .faq-list {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .faq-item:hover {
+            border-color: rgba(108, 99, 255, 0.3);
+        }
+        .faq-question {
+            padding: 24px 28px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .faq-question i {
+            color: var(--primary);
+            font-size: 20px;
+            width: 24px;
+            text-align: center;
+        }
+        .faq-question h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-light);
+            flex: 1;
+        }
+        .faq-arrow {
+            transition: transform 0.3s;
+            color: var(--text-2);
+            font-size: 14px;
+        }
+        .faq-item.active .faq-arrow {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+        .faq-answer-inner {
+            padding: 0 28px 24px 68px;
+        }
+        .faq-answer-inner ul {
+            list-style: disc;
+            color: var(--text-2);
+            font-size: 15px;
+            line-height: 2;
+            padding-left: 18px;
+        }
+        /* ===== 评论模块 ===== */
+        #section-comment {
+            background: var(--bg);
+        }
+        .comment-wrapper {
+            display: flex;
+            gap: 40px;
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        .comment-form-wrap {
+            flex: 0 0 360px;
+        }
+        .comment-form {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .comment-form input,
+        .comment-form textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            color: var(--text-1);
+            padding: 14px 18px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        .comment-form input:focus,
+        .comment-form textarea:focus {
+            border-color: var(--primary);
+        }
+        .comment-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .comment-form button {
+            align-self: flex-start;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .comment-form button:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        .comment-list-wrap {
+            flex: 1;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        .comment-list-wrap::-webkit-scrollbar {
+            width: 6px;
+        }
+        .comment-list-wrap::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+        }
+        .comment-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: border-color 0.3s;
+        }
+        .comment-item:hover {
+            border-color: rgba(108, 99, 255, 0.3);
+        }
+        .comment-head {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .comment-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #fff;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .comment-nick {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-1);
+            flex: 1;
+        }
+        .comment-time {
+            font-size: 12px;
+            color: var(--text-2);
+        }
+        .comment-tag {
+            display: inline-block;
+            font-size: 11px;
+            padding: 3px 12px;
+            border-radius: 12px;
+            background: rgba(108, 99, 255, 0.15);
+            color: var(--primary-light);
+            margin-bottom: 12px;
+        }
+        .comment-text {
+            font-size: 15px;
+            color: var(--text-2);
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+        .comment-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .comment-reply {
+            font-size: 14px;
+            color: var(--text-2);
+            cursor: pointer;
+            transition: color 0.3s;
+            background: none;
+            border: none;
+            font-family: inherit;
+        }
+        .comment-reply:hover {
+            color: var(--primary);
+        }
+        .comment-stats {
+            display: flex;
+            gap: 18px;
+            font-size: 13px;
+            color: var(--text-2);
+        }
+        .comment-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .load-more-tip {
+            text-align: center;
+            padding: 20px 0;
+            color: var(--text-2);
+            font-size: 13px;
+        }
+        .load-more-tip i {
+            display: block;
+            margin-top: 6px;
+            font-size: 18px;
+            animation: bounceDown 1.5s infinite;
+        }
+        @keyframes bounceDown {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(8px);
+            }
+        }
+        /* ===== 页脚 ===== */
+        .site-footer {
+            background: #0B0F1A;
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .footer-inner {
+            text-align: center;
+            color: var(--text-2);
+            font-size: 14px;
+            line-height: 2;
+        }
+        .footer-inner a {
+            color: var(--text-2);
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        /* ===== 响应式 ===== */
+        @media (max-width: 992px) {
+            .adv-grid,
+            .video-grid,
+            .news-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .banner .container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .banner-left {
+                max-width: 100%;
+            }
+            .banner-desc {
+                margin: 0 auto 28px;
+            }
+            .banner-tags {
+                justify-content: center;
+            }
+            .btn-group {
+                justify-content: center;
+            }
+            .banner-right {
+                max-width: 100%;
+                width: 100%;
+            }
+            .comment-wrapper {
+                flex-direction: column;
+                padding: 24px;
+            }
+            .comment-form-wrap {
+                flex: none;
+                width: 100%;
+            }
+            .nav-menu {
+                gap: 16px;
+                font-size: 13px;
+            }
+        }
+        @media (max-width: 768px) {
+            .adv-grid,
+            .video-grid,
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            .banner {
+                padding-top: 80px;
+                height: auto;
+                min-height: 0;
+            }
+            .banner h1 {
+                font-size: 30px;
+            }
+            .section-padding {
+                padding: 50px 0;
+            }
+            .nav-menu {
+                display: none;
+            }
+            .comment-wrapper {
+                padding: 16px;
+                border-radius: 20px;
+            }
+            .comment-list-wrap {
+                max-height: 500px;
+            }
+        }
+        /* ===== 通用卡片悬停 ===== */
+        .hover-lift {
+            transition: var(--transition);
+        }
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- 粒子背景 -->
+    <canvas id="particle-bg"></canvas>
+    <!-- ===== 固定导航栏 ===== -->
+    <nav class="site-nav" id="siteNav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm1 6h-2v-4h2v4z"/></svg>
+                </div>
+                <span class="logo-text">六间房隐藏</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#section-advantage">核心优势</a>
+                <a href="#section-video">精选视频</a>
+                <a href="#section-news">相关资讯</a>
+                <a href="#section-faq">常见问题</a>
+                <a href="#section-comment">用户评论</a>
+            </div>
+        </div>
+    </nav>
+    <!-- ===== 首屏Banner ===== -->
+    <section class="banner" id="section-banner">
+        <div class="container">
+            <div class="banner-left">
+                <div class="banner-tag">
+                    ✨ 全新功能揭秘 <span>→</span>
+                </div>
+                <h1>探索<span class="highlight">六间房隐藏</span>功能<br>守护你的直播隐私</h1>
+                <p class="banner-desc">全面解密六间房隐藏玩法，从隐身观看到房间加密，一站式掌握隐私保护技巧，让你的每次直播体验都安心无忧。</p>
+                <div class="banner-tags">
+                    <span>👁️ 隐身观看</span>
+                    <span>🔒 房间加密</span>
+                    <span>💎 消费隐藏</span>
+                    <span>🕵️ 匿名互动</span>
+                </div>
+                <div class="btn-group">
+                    <a href="#section-advantage" class="btn-primary">立即探索</a>
+                    <a href="#section-video" class="btn-outline">观看教程</a>
+                </div>
+            </div>
+            <div class="banner-right">
+                <div class="pc-window">
+                    <div class="window-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="window-title">六间房隐藏 · 隐私状态</span>
+                    </div>
+                    <div class="window-body">
+                        <div class="win-left">
+                            <div class="icon-wrap">🏠</div>
+                            <span>六间房</span>
+                        </div>
+                        <div class="win-center">
+                            <svg viewBox="0 0 100 100">
+                                <circle cx="50" cy="50" r="40" class="ring-bg"></circle>
+                                <circle cx="50" cy="50" r="40" class="ring-value" stroke-dasharray="251.2" stroke-dashoffset="75.36"></circle>
+                            </svg>
+                            <span class="ring-label">隐私指数 90%</span>
+                        </div>
+                        <div class="win-right">
+                            <span>✅ 隐身状态</span>
+                            <span>🔐 房间加密</span>
+                            <span>💳 消费隐藏</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ===== 核心优势模块 ===== -->
+    <section class="section-padding" id="section-advantage">
+        <div class="container">
+            <div class="section-title">
+                <h2>六大<span class="highlight">核心优势</span></h2>
+            </div>
+            <p class="section-sub">六间房隐藏功能精心打磨，为用户打造全方位的隐私保护体验</p>
+            <div class="adv-grid">
+                <div class="adv-card">
+                    <div class="adv-icon">👁️</div>
+                    <h3>一键隐身</h3>
+                    <p>随时随地开启隐身模式，在线状态对他人不可见，想静静看直播就静静看。</p>
+                </div>
+                <div class="adv-card">
+                    <div class="adv-icon">🔒</div>
+                    <h3>房间加密</h3>
+                    <p>为你的直播间设置专属密码，拒绝陌生访客打扰，只邀请好友共享欢乐。</p>
+                </div>
+                <div class="adv-card">
+                    <div class="adv-icon">💳</div>
+                    <h3>消费隐藏</h3>
+                    <p>保护消费隐私，所有赠送与打赏记录均可隐藏，避免不必要的社交压力。</p>
+                </div>
+                <div class="adv-card">
+                    <div class="adv-icon">🧹</div>
+                    <h3>足迹清除</h3>
+                    <p>一键清除浏览历史和观看足迹，像风一样来过不留痕迹。</p>
+                </div>
+                <div class="adv-card">
+                    <div class="adv-icon">🕊️</div>
+                    <h3>匿名互动</h3>
+                    <p>在弹幕与评论区以匿名身份自由发言，尽情表达你的真实想法。</p>
+                </div>
+                <div class="adv-card">
+                    <div class="adv-icon">🛡️</div>
+                    <h3>数据安全</h3>
+                    <p>金融级数据加密传输，多重防护机制，全方位保护你的账户安全。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ===== 精选视频模块 ===== -->
+    <section class="section-padding" id="section-video">
+        <div class="container">
+            <div class="section-title">
+                <h2>精选<span class="highlight">视频教程</span></h2>
+            </div>
+            <p class="section-sub">手把手教学视频，快速上手六间房隐藏功能</p>
+            <div class="video-grid">
+                <!-- 视频卡片 1 -->
+                <div class="video-card">
+                    <div class="video-thumbnail" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)">
+                        <div class="thumb-tag">📺 教程</div>
+                        <div class="play-btn">▶</div>
+                        <span class="video-duration">08:45</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">六间房隐藏功能全攻略</h3>
+                        <p class="video-desc">一集掌握所有隐藏功能的开启与使用技巧，新人快速上头。</p>
+                        <div class="video-meta"><span>👁 2.3万</span><span>👍 1.2万</span></div>
+                        <div class="video-tags"><span class="tag-video">入门必看</span><span class="tag">功能解读</span></div>
+                    </div>
+                </div>
+                <!-- 视频卡片 2 -->
+                <div class="video-card">
+                    <div class="video-thumbnail" style="background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%)">
+                        <div class="thumb-tag">🔐 实操</div>
+                        <div class="play-btn">▶</div>
+                        <span class="video-duration">06:12</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">加密房间创建实操教程</h3>
+                        <p class="video-desc">一步步教你创建带密码的加密直播间，专属空间即刻拥有。</p>
+                        <div class="video-meta"><span>👁 1.8万</span><span>👍 8620</span></div>
+                        <div class="video-tags"><span class="tag-video">房间加密</span><span class="tag">实操</span></div>
+                    </div>
+                </div>
+                <!-- 视频卡片 3 -->
+                <div class="video-card">
+                    <div class="video-thumbnail" style="background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%)">
+                        <div class="thumb-tag">🕶️ 技巧</div>
+                        <div class="play-btn">▶</div>
+                        <span class="video-duration">05:30</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">隐身模式深度体验</h3>
+                        <p class="video-desc">实测隐身模式下的真实状态，看看别人视角中的你什么样。</p>
+                        <div class="video-meta"><span>👁 3.1万</span><span>👍 1.5万</span></div>
+                        <div class="video-tags"><span class="tag-video">隐身模式</span><span class="tag">实测</span></div>
+                    </div>
+                </div>
+                <!-- 视频卡片 4 -->
+                <div class="video-card">
+                    <div class="video-thumbnail" style="background:linear-gradient(135deg,#43e97b 0%,#38f9d7 100%)">
+                        <div class="thumb-tag">💳 隐私</div>
+                        <div class="play-btn">▶</div>
+                        <span class="video-duration">04:18</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">一键隐藏消费记录</h3>
+                        <p class="video-desc">教你隐藏消费记录，保护钱包隐私，从此告别查岗烦恼。</p>
+                        <div class="video-meta"><span>👁 9820</span><span>👍 4310</span></div>
+                        <div class="video-tags"><span class="tag-video">消费隐藏</span><span class="tag">教程</span></div>
+                    </div>
+                </div>
+                <!-- 视频卡片 5 -->
+                <div class="video-card">
+                    <div class="video-thumbnail" style="background:linear-gradient(135deg,#fa709a 0%,#fee140 100%)">
+                        <div class="thumb-tag">💬 互动</div>
+                        <div class="play-btn">▶</div>
+                        <span class="video-duration">07:22</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">匿名互动玩法揭秘</h3>
+                        <p class="video-desc">用匿名身份自由发言是什么体验？带你解锁互动新姿势。</p>
+                        <div class="video-meta"><span>👁 1.5万</span><span>👍 7800</span></div>
+                        <div class="video-tags"><span class="tag-video">匿名互动</span><span class="tag">玩法</span></div>
+                    </div>
+                </div>
+                <!-- 视频卡片 6 -->
+                <div class="video-card">
+                    <div class="video-thumbnail" style="background:linear-gradient(135deg,#30cfd0 0%,#330867 100%)">
+                        <div class="thumb-tag">🛡️ 安全</div>
+                        <div class="play-btn">▶</div>
+                        <span class="video-duration">09:05</span>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">隐私保护设置指南</h3>
+                        <p class="video-desc">全面配置你的六间房隐私选项，让你的账号更加安全可靠。</p>
+                        <div class="video-meta"><span>👁 2.7万</span><span>👍 1.3万</span></div>
+                        <div class="video-tags"><span class="tag-video">隐私保护</span><span class="tag">设置</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ===== 相关资讯模块 ===== -->
+    <section class="section-padding" id="section-news">
+        <div class="container">
+            <div class="section-title">
+                <h2>相关资讯</h2>
+            </div>
+            <p class="section-sub">关注六间房平台动态与行业趋势，掌握最新资讯</p>
+            <div class="news-divider"></div>
+            <div class="news-grid">
+                <!-- 资讯卡片 1 -->
+                <div class="news-card">
+                    <div class="news-date">📅 2026-01-15</div>
+                    <h3 class="news-title">六间房隐私保护功能全新升级，加密房间更稳定</h3>
+                    <p class="news-summary">本次升级优化了房间加密算法，提升了数据传输安全性，用户反馈良好。</p>
+                    <a href="#" class="news-link">查看详情 →</a>
+                </div>
+                <!-- 资讯卡片 2 -->
+                <div class="news-card">
+                    <div class="news-date">📅 2026-01-08</div>
+                    <h3 class="news-title">解密加密房间玩法为何在主播圈流行</h3>
+                    <p class="news-summary">加密房间为直播内容提供了更私密的分享空间，受到越来越多内容创作者的青睐。</p>
+                    <a href="#" class="news-link">查看详情 →</a>
+                </div>
+                <!-- 资讯卡片 3 -->
+                <div class="news-card">
+                    <div class="news-date">📅 2025-12-28</div>
+                    <h3 class="news-title">实测六间房隐身功能：体验超乎预期</h3>
+                    <p class="news-summary">资深用户实测隐身模式，全程无感知在线，私密性表现令人惊喜。</p>
+                    <a href="#" class="news-link">查看详情 →</a>
+                </div>
+                <!-- 资讯卡片 4 -->
+                <div class="news-card">
+                    <div class="news-date">📅 2025-12-19</div>
+                    <h3 class="news-title">数据安全成为直播平台核心竞争力</h3>
+                    <p class="news-summary">行业分析师指出，隐私保护正逐渐成为用户选择直播平台的重要考量因素。</p>
+                    <a href="#" class="news-link">查看详情 →</a>
+                </div>
+                <!-- 资讯卡片 5 -->
+                <div class="news-card">
+                    <div class="news-date">📅 2025-12-10</div>
+                    <h3 class="news-title">从用户视角看六间房隐藏功能迭代</h3>
+                    <p class="news-summary">多位资深用户分享了他们对六间房隐藏功能的使用感受与改进建议。</p>
+                    <a href="#" class="news-link">查看详情 →</a>
+                </div>
+                <!-- 资讯卡片 6 -->
+                <div class="news-card">
+                    <div class="news-date">📅 2025-12-02</div>
+                    <h3 class="news-title">隐私保护为何越来越受到Z世代重视</h3>
+                    <p class="news-summary">调查显示，超过七成年轻用户将隐私保护作为选择直播平台的首要条件。</p>
+                    <a href="#" class="news-link">查看详情 →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ===== 常见问题模块 ===== -->
+    <section class="section-padding" id="section-faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>常见<span class="highlight">问题</span></h2>
+            </div>
+            <p class="section-sub">关于六间房隐藏功能，这里有你想要的答案</p>
+            <div class="faq-list">
+                <!-- FAQ 1 -->
+                <div class="faq-item active">
+                    <div class="faq-question">
+                        <i class="fas fa-eye-slash"></i>
+                        <h3>六间房隐藏功能如何开启？</h3>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <ul>
+                                <li>打开六间房App，进入「我的」页面，点击右上角「设置」图标。</li>
+                                <li>在设置列表中找到「隐私设置」选项，点击进入即可看到各种隐藏功能开关。</li>
+                                <li>开启「隐身模式」后，你的在线状态将对其他用户不可见，但直播功能不受影响。</li>
+                                <li>隐藏功能支持自定义配置，你可以根据需求单独开启或关闭某一项。</li>
+                                <li>设置完成后立即生效，无需重启应用或重新登录。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ 2 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-lock"></i>
+                        <h3>加密房间如何设置密码？</h3>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <ul>
+                                <li>创建直播间时，在房间设置面板中找到「房间加密」选项。</li>
+                                <li>点击加密后，系统会提示你输入6~12位密码，支持数字、字母组合。</li>
+                                <li>密码设置成功后，观众进入房间前需要输入正确密码才能进入。</li>
+                                <li>你可以随时在房间设置中修改密码或取消加密，操作即时生效。</li>
+                                <li>如果不慎忘记密码，可通过绑定手机号验证身份后重置。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ 3 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-user-secret"></i>
+                        <h3>隐身观看会影响正常互动吗？</h3>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <ul>
+                                <li>隐身模式下，你的在线状态对他人不可见，但可以正常观看直播。</li>
+                                <li>发送弹幕时，你的昵称将以「匿名用户」展示，其他人看不到你的真实称呼。</li>
+                                <li>你可以正常点赞、送礼，但相关行为不会公开展示在你的个人主页。</li>
+                                <li>在隐身状态下偶遇好友，对方只会看到你处于离线状态。</li>
+                                <li>如需恢复完整的互动体验，随时关闭隐身模式即可。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ 4 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-credit-card"></i>
+                        <h3>隐藏消费记录后还能恢复查看吗？</h3>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <ul>
+                                <li>隐藏消费记录只是从个人主页上隐藏展示，数据本身依然完整保存在云端。</li>
+                                <li>你可以在设置中随时取消隐藏，恢复显示所有历史消费记录。</li>
+                                <li>隐藏期间产生的消费记录，在恢复显示后也会一并出现。</li>
+                                <li>消费记录隐藏不会影响账户积分、等级的累计与成长。</li>
+                                <li>如果需要导出详细的消费账单，可联系官方客服协助处理。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ 5 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-comment-dots"></i>
+                        <h3>匿名身份可以发弹幕吗？</h3>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <ul>
+                                <li>可以，在隐身模式下发送弹幕会以「匿名用户」身份展示。</li>
+                                <li>匿名弹幕同样需要遵守平台规范，发布违规内容会被系统处理。</li>
+                                <li>匿名状态隐藏的是普通用户的视角，平台管理员仍可追溯真实账号。</li>
+                                <li>在匿名模式下发送的弹幕，其他观众看不到你的头像和昵称。</li>
+                                <li>退出隐身模式后，之前发布的匿名弹幕不会自动关联到你的真实账号。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ 6 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <i class="fas fa-tag"></i>
+                        <h3>六间房隐藏功能收费吗？</h3>
+                        <span class="faq-arrow">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            <ul>
+                                <li>目前六间房隐藏功能完全免费，所有注册用户均可正常使用。</li>
+                                <li>隐身观看、匿名互动等基础隐藏功能无需开通会员。</li>
+                                <li>房间加密功能同样免费，且不限制加密房间的数量。</li>
+                                <li>未来部分高级隐藏功能可能会纳入会员权益，但基础版会持续免费。</li>
+                                <li>若收到任何涉及隐藏功能的收费信息，请以官方公告为准，谨防诈骗。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ===== 评论留言模块 ===== -->
+    <section class="section-padding" id="section-comment">
+        <div class="container">
+            <div class="section-title">
+                <h2>用户<span class="highlight">评论</span></h2>
+            </div>
+            <p class="section-sub">来看看大家怎么说</p>
+            <div class="comment-wrapper">
+                <div class="comment-form-wrap">
+                    <div class="comment-form">
+                        <input type="text" placeholder="你的昵称">
+                        <textarea placeholder="写下你对本站剧集、功能的看法与建议..."></textarea>
+                        <button type="button">🚀 发布留言</button>
+                    </div>
+                </div>
+                <div class="comment-list-wrap" id="commentList">
+                    <!-- JS动态生成评论 -->
+                </div>
+            </div>
+            <div class="load-more-tip">
+                向下滑动查看更多留言
+                <i>↓</i>
+            </div>
+        </div>
+    </section>
+    <!-- ===== 页脚模块 ===== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-links">
+                    <a href="#">关于我们</a>
+                    <a href="#">联系方式</a>
+                    <a href="#">隐私政策</a>
+                    <a href="#">用户协议</a>
+                </div>
+                <p>© 2026 六间房隐藏功能指南. 保留所有权利.</p>
+                <p>免责声明：本站为技术交流展示页面，不构成任何投资或使用建议。</p>
+            </div>
+        </div>
+    </footer>
+    <!-- ===== JavaScript交互 ===== -->
+    <script>
+        // ===== 粒子背景效果 =====
+        (function() {
+            const canvas = document.getElementById('particle-bg');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const particles = [];
+            const count = 40;
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.6,
+                    vy: (Math.random() - 0.5) * 0.6,
+                    r: Math.random() * 2 + 0.5,
+                    a: Math.random() * 0.4 + 0.1
+                });
+            }
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0) p.x = canvas.width;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.y < 0) p.y = canvas.height;
+                    if (p.y > canvas.height) p.y = 0;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(138, 144, 182, ${p.a})`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        })();
+        // ===== FAQ手风琴效果 =====
+        (function() {
+            const items = document.querySelectorAll('.faq-item');
+            items.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', function() {
+                    const isActive = item.classList.contains('active');
+                    items.forEach(i => i.classList.remove('active'));
+                    if (!isActive) item.classList.add('active');
+                });
+            });
+        })();
+        // ===== 评论数据 =====
+        (function() {
+            const comments = [
+                { nick: '直播小白', text: '隐身观看太实用了，再也不怕被熟人看见。', tag: '热议', likes: 342, replies: 18, time: '2026-01-18 14:32' },
+                { nick: '匿名的猫', text: '加密房间功能好评，跟朋友聊天安心多了。', tag: '好评', likes: 256, replies: 9, time: '2026-01-18 12:08' },
+                { nick: '夜风', text: '游戏房间加密后，真的没人来捣乱了。', tag: '热门', likes: 405, replies: 32, time: '2026-01-18 10:45' },
+                { nick: '飘渺', text: '隐藏消费记录这个设计太贴心。', tag: '观点', likes: 189, replies: 5, time: '2026-01-18 09:20' },
+                { nick: '看电影的鱼', text: '匿名互动也很棒，可以畅所欲言。', tag: '精彩', likes: 278, replies: 14, time: '2026-01-17 23:55' },
+                { nick: '健身达人', text: '六间房的隐私保护做得很到位。', tag: '好评', likes: 167, replies: 3, time: '2026-01-17 22:30' },
+                { nick: '阿杰', text: '隐身模式开着，看了好久都没被发现。', tag: '热门', likes: 389, replies: 21, time: '2026-01-17 21:12' },
+                { nick: '小鹿', text: '加密房间操作很简单，试了一次就会。', tag: '理性', likes: 145, replies: 2, time: '2026-01-17 19:48' },
+                { nick: '奶茶不加糖', text: '强烈推荐这个隐藏功能，打call！', tag: '热议', likes: 501, replies: 36, time: '2026-01-17 18:05' },
+                { nick: '冲浪少年', text: '终于可以躲开不喜欢的人的关注了。', tag: '观点', likes: 232, replies: 8, time: '2026-01-17 16:40' },
+                { nick: '星河', text: '隐藏我的动态之后清净了很多。', tag: '好评', likes: 198, replies: 6, time: '2026-01-17 15:22' },
+                { nick: '半糖主义', text: '六间房这个功能更新太及时了。', tag: '讨论', likes: 176, replies: 11, time: '2026-01-17 13:58' },
+                { nick: '吃瓜群众', text: '在加密房间里聊天感觉很安全。', tag: '热门', likes: 312, replies: 15, time: '2026-01-17 12:36' },
+                { nick: '追剧狂魔', text: '隐身模式刷直播，感觉自由多了。', tag: '热议', likes: 289, replies: 10, time: '2026-01-17 10:15' },
+                { nick: '安静的美男子', text: '消费记录隐藏后，不用再担心尴尬。', tag: '观点', likes: 154, replies: 4, time: '2026-01-17 08:52' },
+                { nick: '隔壁老王', text: '匿名弹幕太欢乐了，大家都放飞自我。', tag: '精彩', likes: 356, replies: 28, time: '2026-01-16 23:20' },
+                { nick: '蓝色多瑙河', text: '私密房间让我和好友有了专属空间。', tag: '好评', likes: 201, replies: 7, time: '2026-01-16 21:40' },
+                { nick: '薄荷微凉', text: '这个隐藏功能很符合我的需求。', tag: '理性', likes: 133, replies: 2, time: '2026-01-16 19:55' },
+                { nick: '星语心愿', text: '希望以后能加更多类似的功能。', tag: '讨论', likes: 167, replies: 9, time: '2026-01-16 18:18' },
+                { nick: '一叶知秋', text: '隐私保护满分，六间房牛。', tag: '好评', likes: 421, replies: 25, time: '2026-01-16 16:30' },
+                { nick: '雾里看花', text: '用隐身模式逛直播，毫无压力。', tag: '热门', likes: 245, replies: 8, time: '2026-01-16 14:42' },
+                { nick: '清风徐来', text: '房间密码设置很简单，保护性好。', tag: '理性', likes: 178, replies: 5, time: '2026-01-16 12:55' },
+                { nick: '月光林地', text: '隐藏功能出了之后，用六间房更放心了。', tag: '好评', likes: 203, replies: 6, time: '2026-01-16 10:28' },
+                { nick: '拾光旅行者', text: '再也不担心直播间被无关人员进入。', tag: '热议', likes: 287, replies: 12, time: '2026-01-16 08:45' },
+                { nick: '云端漫游', text: '强烈建议大家都试试这个功能。', tag: '热门', likes: 334, replies: 19, time: '2026-01-15 22:10' },
+                { nick: '像素猎人', text: '隐藏了在线状态，终于可以安静看直播。', tag: '观点', likes: 262, replies: 7, time: '2026-01-15 20:35' },
+                { nick: '深夜食堂', text: '六间房在隐私方面做得越来越好了。', tag: '好评', likes: 198, replies: 4, time: '2026-01-15 18:50' },
+                { nick: '慢灵魂', text: '加密房间和朋友们看电影很安稳。', tag: '精彩', likes: 221, replies: 8, time: '2026-01-15 16:15' },
+                { nick: '简简单单', text: '隐身互动太有趣了，大家都认不出我。', tag: '热议', likes: 299, replies: 13, time: '2026-01-15 14:28' },
+                { nick: '格子衬衫', text: '这种安全感是其他平台给不了的。', tag: '观点', likes: 165, replies: 3, time: '2026-01-15 12:40' },
+                { nick: '小城故事', text: '房间加密功能是刚需，用了就回不去。', tag: '热门', likes: 312, replies: 16, time: '2026-01-15 10:05' },
+                { nick: '麦田守望者', text: '六间房隐藏功能更新很频繁，体验很好。', tag: '理性', likes: 143, replies: 2, time: '2026-01-15 08:20' },
+                { nick: '番茄炒蛋', text: '隐私设置很详细，可以按需开启。', tag: '好评', likes: 187, replies: 5, time: '2026-01-14 22:55' },
+                { nick: '柠檬精', text: '隐身的时候也能正常聊天，太方便了。', tag: '热议', likes: 276, replies: 11, time: '2026-01-14 20:30' },
+                { nick: '彩虹天堂', text: '再也不怕被人窥屏了，好评！', tag: '热门', likes: 365, replies: 22, time: '2026-01-14 18:45' },
+                { nick: '无声告白', text: '隐藏功能很全面，看得出用心了。', tag: '好评', likes: 208, replies: 6, time: '2026-01-14 16:10' },
+                { nick: '半岛铁盒', text: '在六间房，我的隐私我做主。', tag: '观点', likes: 174, replies: 4, time: '2026-01-14 14:35' },
+                { nick: '假面骑士', text: '加密房间可以做很多私密的事，哈哈。', tag: '精彩', likes: 289, replies: 18, time: '2026-01-14 12:50' },
+                { nick: '摩西摩西', text: '匿名弹幕真的很好笑，氛围很轻松。', tag: '讨论', likes: 233, replies: 8, time: '2026-01-14 10:15' },
+                { nick: '一颗小栗子', text: '六间房隐藏功能让我用得越来越舒心。', tag: '好评', likes: 196, replies: 5, time: '2026-01-14 08:40' },
+                { nick: '北巷长歌', text: '消费足迹消除功能太适合我这种有洁癖的。', tag: '理性', likes: 125, replies: 1, time: '2026-01-13 22:20' },
+                { nick: '南风知我意', text: '隐身观看直播不会被房主注意到。', tag: '热议', likes: 254, replies: 9, time: '2026-01-13 20:45' },
+                { nick: '山月不知心底事', text: '隐藏功能稳定不掉线，很靠谱。', tag: '好评', likes: 178, replies: 3, time: '2026-01-13 18:30' },
+                { nick: '碳酸饮料', text: '强烈推荐六间房，隐私保护一流。', tag: '热门', likes: 342, replies: 17, time: '2026-01-13 16:55' },
+                { nick: '喵呜大人', text: '加密房间和好友分享快乐，完美。', tag: '精彩', likes: 201, replies: 7, time: '2026-01-13 14:20' },
+                { nick: '超人与蝙蝠侠', text: '六间房的隐藏功能细节很到位。', tag: '观点', likes: 164, replies: 4, time: '2026-01-13 12:35' },
+                { nick: '海绵宝宝', text: '隐身模式+匿名互动=完美组合！', tag: '热议', likes: 356, replies: 23, time: '2026-01-13 10:50' },
+                { nick: '派大星', text: '安全感满满，六间房真的懂用户。', tag: '好评', likes: 220, replies: 8, time: '2026-01-13 08:25' },
+                { nick: '章鱼哥', text: '各种隐藏功能配合使用，效果拉满。', tag: '热门', likes: 244, replies: 10, time: '2026-01-12 22:40' },
+                { nick: '痞老板', text: '隐私问题不存在的，六间房都替我想好了。', tag: '理性', likes: 188, replies: 6, time: '2026-01-12 20:15' }
+            ];
+            comments.sort(function(a, b) {
+                return new Date(b.time) - new Date(a.time);
+            });
+            const list = document.getElementById('commentList');
+            comments.forEach(function(c) {
+                const el = document.createElement('div');
+                el.className = 'comment-item';
+                el.innerHTML = '<div class="comment-head">' +
+                    '<div class="comment-avatar">' + c.nick.charAt(0) + '</div>' +
+                    '<span class="comment-nick">' + c.nick + '</span>' +
+                    '<span class="comment-time">' + c.time + '</span></div>' +
+                    '<div class="comment-tag">' + c.tag + '</div>' +
+                    '<div class="comment-text">' + c.text + '</div>' +
+                    '<div class="comment-footer">' +
+                    '<button class="comment-reply">💬 回复</button>' +
+                    '<div class="comment-stats">' +
+                    '<span>👍 ' + c.likes + '</span>' +
+                    '<span>💬 ' + c.replies + '</span>' +
+                    '</div></div>';
+                list.appendChild(el);
+            });
+        })();
+        // ===== 导航栏滚动阴影 =====
+        (function() {
+            const nav = document.getElementById('siteNav');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    nav.style.boxShadow = '0 4px 30px rgba(0,0,0,0.4)';
+                } else {
+                    nav.style.boxShadow = 'none';
+                }
+            });
+        })();
+    </script>
+    <!-- ===== 结构化数据 SEO ===== -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [{
+                "@type": "Question",
+                "name": "六间房隐藏功能如何开启？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "打开六间房App，进入我的页面，点击设置，在隐私设置中即可开启隐身模式、消费隐藏等功能。"
+                }
+            }, {
+                "@type": "Question",
+                "name": "加密房间如何设置密码？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "创建直播间时点击房间加密，输入6-12位密码即可。密码可随时修改或取消。"
+                }
+            }, {
+                "@type": "Question",
+                "name": "隐身观看会影响正常互动吗？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "隐身模式下在线状态不可见，但可以正常观看直播、发送匿名弹幕，只是昵称会显示为匿名用户。"
+                }
+            }, {
+                "@type": "Question",
+                "name": "隐藏消费记录后还能恢复查看吗？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "可以。隐藏消费记录只是从个人主页隐藏展示，数据仍保留在云端，随时可以取消隐藏恢复显示。"
+                }
+            }, {
+                "@type": "Question",
+                "name": "匿名身份可以发弹幕吗？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "可以。隐身模式下发弹幕会以匿名身份展示，其他用户看不到你的真实昵称和头像。"
+                }
+            }, {
+                "@type": "Question",
+                "name": "六间房隐藏功能收费吗？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "目前所有隐藏功能完全免费，包括隐身观看、房间加密、匿名互动等，无需开通会员。"
+                }
+            }]
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "VideoObject",
+            "name": "六间房隐藏功能全攻略",
+            "description": "一集掌握六间房隐藏功能的开启与使用技巧，包括隐身观看、房间加密、消费隐藏等。",
+            "thumbnailUrl": "/images/六间房隐藏功能全攻略.jpg",
+            "uploadDate": "2026-01-10T12:00:00+08:00",
+            "duration": "PT8M45S",
+            "interactionStatistic": {
+                "@type": "InteractionCounter",
+                "interactionType": { "@type": "WatchAction" },
+                "userInteractionCount": 23000
+            }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": "六间房隐私保护功能全新升级，加密房间更稳定",
+            "description": "本次升级优化了房间加密算法，提升了数据传输安全性，用户反馈良好。",
+            "datePublished": "2026-01-15T10:00:00+08:00",
+            "dateModified": "2026-01-15T10:00:00+08:00",
+            "author": { "@type": "Organization", "name": "六间房隐藏功能指南" }
+        }
+    </script>
+</body>
+</html>
